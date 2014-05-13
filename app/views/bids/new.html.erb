@@ -1,0 +1,19 @@
+<div class="row">
+    <div class="col-lg-6">    
+        <section class="panel">
+            <header class="panel-heading">
+                Bid
+            </header>
+            <div class="panel-body">
+                <%= form_for(:bid, :url => { :action => 'create'}) do |f| %>
+				<input type="hidden" name="bid[ad_id]" value="<%= params[:id] %>" />
+                <%= render(:partial => "form", :locals => {:f => f }) %>
+
+            </div>
+        </section>
+    <div class="form-buttons">
+        <%= submit_tag("Create Ad") %>
+    </div>
+    <% end %>
+    </div>
+</div>

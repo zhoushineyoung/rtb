@@ -1,0 +1,54 @@
+ <div class="page-heading">
+    <h3>
+        Advertisement
+    </h3>
+	<%= link_to("<< Back to List", {:action => 'index'}, :class => 'back-link') %>
+</div>
+
+<section class="panel">
+    <header class="panel-heading">
+        Advertisment
+                <!--<span class="tools pull-right">
+                    <a href="javascript:;" class="fa fa-chevron-down"></a>
+                    <a href="javascript:;" class="fa fa-times"></a>
+                 </span>-->
+    </header>
+    <div class="panel-body">
+        <section id="unseen">
+            <table class="table table-bordered table-striped table-condensed">
+                <thead>
+                <tr>
+                	<th>Advertisment</th>
+					<th>Type</th>
+					<th>Format</th>
+					<th>District</th>
+					<th>Address</th>
+					<th>Grade</th>
+					<th>Duration</th>
+					<th>Start Date</th>
+					<th>End Date</th>
+					<th class="numeric">Base Amount</th>
+					<th class="numeric">Current Amount</th>
+					<th>Bid</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                	<td><%= @ad.name %></td>
+					<td><%= @ad.type.name %></td>
+					<td><%= @ad.format.size %></td>
+                    <td><%= @ad.district.name %></td>
+					<td><%= @ad.address %></td>
+					<td><%= @ad.grade.name %></td>
+					<td><%= @ad.duration.month %></td>
+                    <td><%= @ad.startdate %></td>
+                    <td><%= @ad.enddate %></td>
+                    <td><%= @ad.baseamount %></td>
+                    <td><%= @ad.amount %></td>
+                   	<td><%= link_to("Bid", :data => @ad,  controller: "bids", action: "new") %></td>
+                </tr>
+                </tbody>
+            </table>
+        </section>
+    </div>
+</section>

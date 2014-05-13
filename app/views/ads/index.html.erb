@@ -1,0 +1,157 @@
+
+     <div class="row states-info">
+     <div class="col-md-3">
+         <div class="panel red-bg">
+             <div class="panel-body">
+                 <div class="row">
+                     <div class="col-xs-4">
+                         <i class="fa fa-money"></i>
+                     </div>
+                     <div class="col-xs-8">
+                         <span class="state-title"> Profit Today </span>
+                         <h4>$ 23,232</h4>
+                     </div>
+                 </div>
+             </div>
+         </div>
+     </div>
+     <div class="col-md-3">
+         <div class="panel blue-bg">
+             <div class="panel-body">
+                 <div class="row">
+                     <div class="col-xs-4">
+                         <i class="fa fa-tag"></i>
+                     </div>
+                     <div class="col-xs-8">
+                         <span class="state-title">  Ad Sold Today  </span>
+                         <h4>2,980</h4>
+                     </div>
+                 </div>
+             </div>
+         </div>
+     </div>
+     <div class="col-md-3">
+         <div class="panel green-bg">
+             <div class="panel-body">
+                 <div class="row">
+                     <div class="col-xs-4">
+                         <i class="fa fa-gavel"></i>
+                     </div>
+                     <div class="col-xs-8">
+                         <span class="state-title">  New Bid  </span>
+                         <h4>5980</h4>
+                     </div>
+                 </div>
+             </div>
+         </div>
+     </div>
+     <div class="col-md-3">
+         <div class="panel yellow-bg">
+             <div class="panel-body">
+                 <div class="row">
+                     <div class="col-xs-4">
+                         <i class="fa fa-eye"></i>
+                     </div>
+                     <div class="col-xs-8">
+                         <span class="state-title">  Bidding  </span>
+                         <h4>10,000</h4>
+                     </div>
+                 </div>
+             </div>
+         </div>
+     </div>
+
+ 
+ <div class="page-heading">
+    <h3>
+        Advertisement
+    </h3>
+    <ul class="breadcrumb">
+        <li class="active"><%= link_to("Add New Advertisment", {:action => 'new'}) %></li>
+    </ul>
+</div>
+
+<section class="panel">
+    <header class="panel-heading">
+        Advertisment
+                <span class="tools pull-right">
+                	<form action="/filter_ads">
+	            		<% @district = District.all %>
+	            		<% @type = Type.all %>
+	            		<% @baseamount = Ad.where("baseamount IS NOT NULL") %>
+						<% @amount = @baseamount.collect{|x| x.baseamount}.flatten.uniq %>
+	            		
+	            		<select name="amount">
+							<option value="">Select Amount</option>
+							<% for a in @amount %>
+								<option value="<%= a %>" <% if a.to_s == params[:amount]%> selected <% end %>><%= a %></option>
+							<% end %>
+						</select>
+	            		
+	            		<select name="type">
+							<option value="">Select Type</option>
+							<% for t in @type %>
+								<option value="<%= t.id %>" <% if t.id.to_s == params[:type]%> selected <% end %>><%= t.name%></option>
+							<% end %>
+						</select>	
+						
+						<select name="district">
+							<option value="">Select District</option>
+							<% for d in @district %>
+								<option value="<%= d.id %>" <% if d.id.to_s == params[:district]%> selected <% end %>><%= d.name%></option>
+							<% end %>
+						</select>	
+						
+						<button type="submit">Search Now</button>
+					</form>
+                 </span>
+    </header>
+    <div class="panel-body">
+        <section id="unseen">
+            <table class="table table-bordered table-striped table-condensed">
+                <thead>
+                <tr>
+                	<th>Advertisment</th>
+					<th>Type</th>
+					<th>Format</th>
+					<th>District</th>
+					<th>Address</th>
+					<th>Grade</th>
+					<th>Duration</th>
+					<th>Start Date</th>
+					<th>End Date</th>
+					<th class="numeric">Base Amount</th>
+					<th class="numeric">Current Amount</th>
+					<th>Bid</th>			
+                </tr>
+                </thead>
+                <tbody>
+               	<% @ads.each do |ad| %>
+                <tr>
+                	<td><%= link_to(ad.name , {:action => 'show', :id => ad.id }, :class => 'action show') %></td>
+					<td><%= ad.type.name %></td>
+					<td><%= ad.format.size %></td>
+                    <td><%= ad.district.name %></td>
+					<td><%= ad.address %></td>
+					<td><%= ad.grade.name %></td>
+					<td><%= ad.duration.month %></td>
+                    <td><%= ad.startdate %></td>
+                    <td><%= ad.enddate %></td>
+                    <td><%= ad.baseamount %></td>
+					
+                    <td><% default_amount = ad.baseamount.to_i %>
+                    	<% ad.bids.each do |bid| %>
+                    		<% default_amount = default_amount + bid.amount %>
+                    	<% end %>
+                    	
+                    	<%= default_amount %>
+					</td>
+					
+					<td><a href="/bids/new?id=<%= ad.id %>">BID</a></td>
+                </tr>
+                <% end %>
+                </tbody>
+            </table>
+        </section>
+    </div>
+</section>
